@@ -1,2 +1,6 @@
 /venv/
 /.idea/
+/glidedsky/data_source/imgs
+/glidedsky/model.h5
+/glidedsky/data_source/data.h5
+
