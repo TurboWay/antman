@@ -16,11 +16,12 @@ from io import BytesIO
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
 
+Cookie = 'your cookies'
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
     'Accept-Encoding': 'gzip, deflate', 'Accept-Language': 'zh-CN,zh;q=0.9', 'Cache-Control': 'max-age=0',
     'Connection': 'keep-alive',
-    'Cookie': '__gads=ID=227efba24e897ba1:T=1599208355:S=ALNI_MbtWcmS-lrKu_DASa8CKA1pf9SuRQ; _ga=GA1.2.280986667.1599208355; _gid=GA1.2.1720620895.1599449018; footprints=eyJpdiI6InI2NVhZcEYzWFUzbGFnRVV4N293VkE9PSIsInZhbHVlIjoiMTZPNlwvVGJHQnU5eUY0cnA1TFZYQzhPRzRPV2tYZEVRczBlS1BSTGZDTEhwK1RzVXlJYWRtZGtzK044c2NWNXEiLCJtYWMiOiJkODNmYTVmNjkxNTA0OWZiOTk5MzE1OTIyZWE4ZWU2ODkxZDc3ZmQ1Y2IzZDE1OGRlMjc0NDM0MTU4N2RlYWVjIn0%3D; remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IlA1VGJiRlQzakJ6K2Y1SzN6Q0RVTmc9PSIsInZhbHVlIjoiMW1ib0pIdXRQV00zeWxvR28zeWdxNjUrTnRPVGxNRG5sb0lnclFHUlErYTV6YUhIUG5oRTJFRFduaFNOODNcL3VQb0FNaFdHRHQ1N0tjZ2xkWmo5cGlrVGtJeWhUbVRVbzZjNVlVR0RMaGFXYVN6YkdvbjdPcWtRWUlJRkc1ZGliTnZHTnBaOXBUVElWMUROdWRaT1ZZUjdxUGpLQ3FEMVlpdURlTFFLbEppOD0iLCJtYWMiOiJjZjUwNGI5YzMyYThhY2IzODRjYTdkMDhjNzNlYjZkZmMwZDQ0NDdlZGU3MDVhZGNiMzZmOGUyNzRjODY1OGQ3In0%3D; Hm_lvt_020fbaad6104bcddd1db12d6b78812f6=1599786061,1599820355,1599833557,1599898723; XSRF-TOKEN=eyJpdiI6ImU2Wmp5cXRjMEVJS0pOWDFKWk1VcXc9PSIsInZhbHVlIjoielRqTkZyUUtHRWFJcTRLSGp1cVMxVHBFR1ZlQU5XNTc2Ymp6TUcxb0p3aUxocXU5cmo0VGtmR1VZcnVqRWVWYSIsIm1hYyI6IjZjOTg0Y2Y0YWJkZGZmYTAwYWNjZGNjYjExYjI3Mjk4ZWJiZTM5MDJhNTU1MmJkNGYwMDhjZGVkMmYxZDk1NjYifQ%3D%3D; glidedsky_session=eyJpdiI6Ikc1QUhPeVwvNDhReHRsXC8raGxUdHdUUT09IiwidmFsdWUiOiJSWUMxRlVOZzV1UzcyNHNhc0NQU3ByWmlqMmc1SmxRRzJjSWdkSXh2WnBzT3RWbTFCYVFZK3NTcEpyemJqcGlBIiwibWFjIjoiYzM1NWYyMjg1ZGZmNjEzNjFmM2U3Yzc2ZmIwZDIwMmRjYmExMGQ4MTkxZTkxNTkzZTJjNGQ3OGRmMjQ2ZmNiZCJ9; Hm_lpvt_020fbaad6104bcddd1db12d6b78812f6=1599898787',
+    'Cookie': Cookie,
     'Host': 'www.glidedsky.com',
     'Referer': 'http://www.glidedsky.com/level/web/crawler-basic-2?page=1',
     'Upgrade-Insecure-Requests': '1',

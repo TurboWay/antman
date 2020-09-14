@@ -6,7 +6,6 @@
 # @Describe:
 
 import h5py
-import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from sklearn.model_selection import train_test_split
@@ -38,16 +37,25 @@ class Train:
         self.train_images, self.test_images, self.train_labels, self.test_labels = train_test_split(images, labels,
                                                                                                     test_size=0.1,
                                                                                                     random_state=0)
-        self.train_images = self.train_images[:400000].reshape((400000, 20, 20, 1))
-        self.train_labels = self.train_labels[:400000]
-        self.test_images = self.test_images[:40000].reshape((40000, 20, 20, 1))
-        self.test_labels = self.test_labels[:40000]
+        train_count, test_count = 400000, 40000
+        self.train_images = self.train_images[:train_count].reshape((train_count, 20, 20, 1))
+        self.train_labels = self.train_labels[:train_count]
+        self.test_images = self.test_images[:test_count].reshape((test_count, 20, 20, 1))
+        self.test_labels = self.test_labels[:test_count]
 
     def train(self):
+        # 可视化 tensorboard --logdir=D:\GitHub\antman\glidedsky\logs
+        TensorBoardcallback = tf.keras.callbacks.TensorBoard(
+            log_dir='logs',
+            histogram_freq=1,
+            write_graph=True,
+            write_images=True,
+            update_freq=5000,
+        )
         self.model.compile(optimizer='adam',
                            loss=tf.keras.losses.CategoricalCrossentropy(),
                            metrics=['accuracy'])
-        self.model.fit(self.train_images, self.train_labels, epochs=8)
+        self.model.fit(self.train_images, self.train_labels, epochs=8, callbacks=[TensorBoardcallback])
         self.model.save('./model.h5')
 
     def test(self):
@@ -58,5 +66,5 @@ class Train:
 
 if __name__ == "__main__":
     app = Train()
-    # app.train()
+    app.train()
     app.test()
