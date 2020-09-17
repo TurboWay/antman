@@ -49,15 +49,22 @@ class DataSource(object):
 class Train:
     def __init__(self):
         self.cnn = CNN()
+        self.cnn.model.compile(optimizer='adam',
+                               loss='sparse_categorical_crossentropy',
+                               metrics=['accuracy'])
+        if os.path.exists('./model/checkpoint'):
+            latest = tf.train.latest_checkpoint('./model')
+            self.cnn.model.load_weights(latest)
+            print(f"{self.cnn.model} 模型加载成功，继续训练...")
         self.data = DataSource()
 
     def train(self):
         check_path = './model/cp-{epoch:04d}.ckpt'
-        save_model_cb = tf.keras.callbacks.ModelCheckpoint(check_path, save_weights_only=True, verbose=1)
-        self.cnn.model.compile(optimizer='adam',
-                               loss='sparse_categorical_crossentropy',
-                               metrics=['accuracy'])
-        self.cnn.model.fit(self.data.train_images, self.data.train_labels, epochs=6, callbacks=[save_model_cb])
+        Checkpoint = tf.keras.callbacks.ModelCheckpoint(check_path, save_weights_only=True, verbose=1)
+        CSVLogger = tf.keras.callbacks.CSVLogger(filename='log.csv', append=True)
+        self.cnn.model.fit(self.data.train_images, self.data.train_labels, epochs=10, callbacks=[Checkpoint, CSVLogger])
+
+    def test(self):
         test_loss, test_acc = self.cnn.model.evaluate(self.data.test_images, self.data.test_labels)
         print("准确率: %.4f，共测试了%d张图片 " % (test_acc, len(self.data.test_labels)))
 
@@ -65,3 +72,4 @@ class Train:
 if __name__ == "__main__":
     app = Train()
     app.train()
+    app.test()
