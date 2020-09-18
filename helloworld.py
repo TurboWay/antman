@@ -7,6 +7,11 @@
 
 import os
 import tensorflow as tf
+import tensorflow.keras.models
+import tensorflow.keras.losses
+import tensorflow.keras.metrics
+import tensorflow.keras.optimizers
+import tensorflow.keras.activations
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = '2'  # 只显示 warning 和 Error
 tf.add(1, 2).numpy()
