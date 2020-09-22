@@ -4,3 +4,5 @@
 /glidedsky/logs/
 *log.csv
 *data.h5
+/captcha_sougou/model.h5
+/captcha_weibo/model.h5

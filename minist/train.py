@@ -21,7 +21,7 @@ class CNN(object):
         model.add(layers.MaxPooling2D((2, 2)))
         # 第3层卷积，卷积核大小为3*3，64个
         model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-
+        model.add(layers.MaxPooling2D((2, 2)))
         model.add(layers.Flatten())
         model.add(layers.Dense(64, activation='relu'))
         model.add(layers.Dense(10, activation='softmax'))
@@ -69,7 +69,23 @@ class Train:
         print("准确率: %.4f，共测试了%d张图片 " % (test_acc, len(self.data.test_labels)))
 
 
+def draw():
+    """
+    :return: 画图
+    """
+    import matplotlib.pyplot as plt
+    with open('log.csv', 'r', encoding='utf-8') as f:
+        accuracy, loss = [], []
+        for line in f.readlines()[1:]:
+            accuracy.append(float(line.split(',')[1]))
+            loss.append(float(line.split(',')[-1]))
+        # plt.plot(accuracy, label='accuracy')
+        plt.plot(loss, label='loss')
+        plt.show()
+
+
 if __name__ == "__main__":
     app = Train()
     app.train()
     app.test()
+    draw()
