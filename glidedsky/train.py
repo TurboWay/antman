@@ -44,11 +44,10 @@ class Train:
             self.test_images = f['test_images'][()]
             self.test_labels = f['test_labels'][()]
 
-        train_count, test_count = 400000, 40000
-        self.train_images = self.train_images[:train_count].reshape((train_count, 20, 20, 1))
-        self.train_labels = self.train_labels[:train_count]
-        self.test_images = self.test_images[:test_count].reshape((test_count, 20, 20, 1))
-        self.test_labels = self.test_labels[:test_count]
+        self.train_images = self.train_images.reshape((-1, 20, 20, 1))
+        self.train_labels = self.train_labels
+        self.test_images = self.test_images.reshape((-1, 20, 20, 1))
+        self.test_labels = self.test_labels
 
         # 数据处理 归一化
         self.train_images = 1 - self.train_images / 255.0

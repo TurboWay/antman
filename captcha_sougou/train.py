@@ -46,11 +46,10 @@ class Train:
             self.test_images = f['test_images'][()]
             self.test_labels = f['test_labels'][()]
 
-        train_count, test_count = len(self.train_images), len(self.test_images)
-        self.train_images = self.train_images.reshape((train_count, 140, 45, 1))
-        self.train_labels = self.train_labels.reshape((train_count, 6, 36))
-        self.test_images = self.test_images.reshape((test_count, 140, 45, 1))
-        self.test_labels = self.test_labels.reshape((test_count, 6, 36))
+        self.train_images = self.train_images.reshape((-1, 140, 45, 1))
+        self.train_labels = self.train_labels.reshape((-1, 6, 36))
+        self.test_images = self.test_images.reshape((-1, 140, 45, 1))
+        self.test_labels = self.test_labels.reshape((-1, 6, 36))
 
         # 数据处理 归一化
         self.train_images = self.train_images / 255.0

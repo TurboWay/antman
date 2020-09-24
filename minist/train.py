@@ -12,19 +12,21 @@ from tensorflow.keras import datasets, layers, models
 
 class CNN(object):
     def __init__(self):
-        model = models.Sequential()
-        # 第1层卷积，卷积核大小为3*3，32个，28*28为待训练图片的大小
-        model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
-        model.add(layers.MaxPooling2D((2, 2)))
-        # 第2层卷积，卷积核大小为3*3，64个
-        model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-        model.add(layers.MaxPooling2D((2, 2)))
-        # 第3层卷积，卷积核大小为3*3，64个
-        model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-        model.add(layers.MaxPooling2D((2, 2)))
-        model.add(layers.Flatten())
-        model.add(layers.Dense(64, activation='relu'))
-        model.add(layers.Dense(10, activation='softmax'))
+        model = models.Sequential([
+            # 第1层卷积，卷积核大小为3*3，32个，28*28为待训练图片的大小
+            layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),
+            layers.MaxPooling2D((2, 2)),
+            # 第2层卷积，卷积核大小为3*3，64个
+            layers.Conv2D(64, (3, 3), activation='relu'),
+            layers.MaxPooling2D((2, 2)),
+            # 第3层卷积，卷积核大小为3*3，64个
+            # layers.Conv2D(64, (3, 3), activation='relu'),
+            # layers.MaxPooling2D((2, 2)),
+
+            layers.Flatten(),
+            layers.Dense(32, activation='relu'),
+            layers.Dense(10, activation='softmax')
+        ])
 
         model.summary()
 
@@ -37,8 +39,8 @@ class DataSource(object):
         data_path = os.path.abspath(os.path.dirname(__file__)) + '/data_source/mnist.npz'
         (train_images, train_labels), (test_images, test_labels) = datasets.mnist.load_data(path=data_path)
         # 6万张训练图片，1万张测试图片
-        train_images = train_images.reshape((60000, 28, 28, 1))
-        test_images = test_images.reshape((10000, 28, 28, 1))
+        train_images = train_images.reshape((-1, 28, 28, 1))
+        test_images = test_images.reshape((-1, 28, 28, 1))
         # 像素值映射到 0 - 1 之间
         train_images, test_images = train_images / 255.0, test_images / 255.0
 
@@ -58,11 +60,16 @@ class Train:
             print(f"{self.cnn.model} 模型加载成功，继续训练...")
         self.data = DataSource()
 
-    def train(self):
+    def train(self, epochs):
         check_path = './model/cp-{epoch:04d}.ckpt'
         Checkpoint = tf.keras.callbacks.ModelCheckpoint(check_path, save_weights_only=True, verbose=1)
-        CSVLogger = tf.keras.callbacks.CSVLogger(filename='log.csv', append=True)
-        self.cnn.model.fit(self.data.train_images, self.data.train_labels, epochs=10, callbacks=[Checkpoint, CSVLogger])
+        for _ in range(epochs):
+            history = self.cnn.model.fit(self.data.train_images, self.data.train_labels, epochs=1,
+                                         callbacks=[Checkpoint])
+            train_loss, train_acc = history.history['loss'][0], history.history['accuracy'][0]
+            test_loss, test_acc = self.cnn.model.evaluate(self.data.test_images, self.data.test_labels)
+            with open('log.csv', 'a', encoding='utf-8') as f:
+                f.write(f'{train_loss}, {train_acc}, {test_loss}, {test_acc}\n')
 
     def test(self):
         test_loss, test_acc = self.cnn.model.evaluate(self.data.test_images, self.data.test_labels)
@@ -75,17 +82,17 @@ def draw():
     """
     import matplotlib.pyplot as plt
     with open('log.csv', 'r', encoding='utf-8') as f:
-        accuracy, loss = [], []
+        x, train_acc, test_acc = [], [], []
         for line in f.readlines()[1:]:
-            accuracy.append(float(line.split(',')[1]))
-            loss.append(float(line.split(',')[-1]))
-        # plt.plot(accuracy, label='accuracy')
-        plt.plot(loss, label='loss')
+            train_acc.append(float(line.split(',')[1]))
+            test_acc.append(float(line.split(',')[-1]))
+        plt.plot(train_acc, label='train', color='green')
+        plt.plot(test_acc, label='test', color='yellow', linestyle='--')
         plt.show()
 
 
 if __name__ == "__main__":
     app = Train()
-    app.train()
+    # app.train(epochs=10)
     app.test()
     draw()
