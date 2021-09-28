@@ -82,5 +82,5 @@ class CNN(object):
 
 if __name__ == "__main__":
     app = CNN()
-    app.train(epochs=97)
+    app.train(epochs=100)
     app.test()
