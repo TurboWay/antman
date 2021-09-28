@@ -20,6 +20,7 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple tensorflow==2.0.0
 | gym_cartpole_v2 |       | [强化学习玩转 gym game（Policy Gradient 策略梯度算法）](https://geektutu.com/post/tensorflow2-gym-pg.html) |  |
 |gym_mountaincar|       | [强化学习玩转 gym game（Q-Learning 强化学习）](https://geektutu.com/post/tensorflow2-gym-q-learning.html) | |
 |gym_mountaincar_v2|       | [强化学习玩转 gym game（Deep Q-Learning Network 深度Q网络）](https://geektutu.com/post/tensorflow2-gym-dqn.html) | |
+|sklearn|       | [sklearn中文社区](https://scikit-learn.org.cn/) | |
 
 
 ## refer

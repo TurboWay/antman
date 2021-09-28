@@ -6,3 +6,5 @@
 *data.h5
 /captcha_sougou/model.h5
 /captcha_weibo/model.h5
+/mnist/data_source/imgs/
+*.npz

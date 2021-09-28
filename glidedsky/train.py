@@ -54,7 +54,7 @@ class Train:
         self.test_images = 1 - self.test_images / 255.0
 
     def train(self):
-        # 可视化 tensorboard --logdir=D:\GitHub\antman\glidedsky\logs
+        # 可视化 tensorboard --logdir=C:\GitHub\antman\glidedsky\logs
         TensorBoardcallback = tf.keras.callbacks.TensorBoard(
             log_dir='logs',
             histogram_freq=1,
